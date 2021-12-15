@@ -22,6 +22,15 @@
   margin-bottom: 20px;
 }
 
+
+.spinner { 
+  width: 150px;
+  max-width: 80vw;
+  display: block;
+  margin: 0 auto;
+}
+
+
 /* pour les petits écrans... une seule colonne */
 @media (max-width: 600px) {
   .grid {
