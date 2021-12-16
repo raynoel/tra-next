@@ -4,15 +4,17 @@ import {FaUser} from 'react-icons/fa'
 import { ToastContainer, toast } from "react-toastify";    
 import "react-toastify/dist/ReactToastify.css";  
 import Layout from '../../components/Layout';
+import AuthContext from '../../context/AuthContext';
 import styles from '../../styles/AuthForm.module.css'
 
 export default function LoginPage() {
+  const {login, error} = useContext(AuthContext)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log({email, password})
+    login ({email, password})                                                       // POST à l'API et enregistre la réponse dans le context
   }
 
   return (
