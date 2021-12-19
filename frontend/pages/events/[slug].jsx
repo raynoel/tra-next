@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import {FaPencilAlt, FaTimes} from 'react-icons/fa'
 import Layout from '../../components/Layout.jsx'
 import styles from '../../styles/Event.module.css'
-import { API_URL } from '../../config/index.js'
+import { BACKEND_URL } from '../../config/index.js'
 
 
 export default function EventPage({ evt }) {
@@ -16,7 +16,7 @@ export default function EventPage({ evt }) {
   const deleteEvent = async (e) => {
     if (confirm('Are you sure?')) {
       try {
-        await axios.delete(`${API_URL}/events/${evt.id}`) 
+        await axios.delete(`${BACKEND_URL}/events/${evt.id}`) 
         router.push(`/events`)
       } catch (error) {
         toast.error("Something went wrong");
@@ -49,7 +49,7 @@ export default function EventPage({ evt }) {
 
 
 export async function getStaticPaths() {
-  let { data: events } = await axios.get(`${API_URL}/events`)                     // Obtient le tb des obj events
+  let { data: events } = await axios.get(`${BACKEND_URL}/events`)                     // Obtient le tb des obj events
   let paths = events.map((evt) => ({ params: { slug: evt.slug } }))               // Cré un tb path contenant des obj {params: { slug: ''}}
   return {
     paths,
@@ -58,7 +58,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { slug } }) {                      // extrait la propriété params.slug
-  let response = await axios.get(`${API_URL}/events?slug=${slug}`)                // Obtient le tb des obj events corresponsant au 'slug'
+  let response = await axios.get(`${BACKEND_URL}/events?slug=${slug}`)                // Obtient le tb des obj events corresponsant au 'slug'
   const tb_events = response.data
   return {
     props: { evt: tb_events[0] },
@@ -68,7 +68,7 @@ export async function getStaticProps({ params: { slug } }) {                    
 
 
 // export async function getServerSideProps({ query: {slug} }) {                           // extrait la propriété 'slug' du query
-//   const { data: events } = await axios.get(`${API_URL}/events/${slug}`)             // Obtient un tb d'obj events contenant un obj
+//   const { data: events } = await axios.get(`${BACKEND_URL}/events/${slug}`)             // Obtient un tb d'obj events contenant un obj
 //   return {
 //     props: { evt: events[0] }
 //   }

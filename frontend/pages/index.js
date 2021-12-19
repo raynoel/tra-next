@@ -2,7 +2,7 @@ import Link from 'next/link'
 import axios from 'axios'
 import Layout from "../components/Layout.jsx"
 import EventItem from '../components/EventItem.jsx'
-import { API_URL } from '../config/index.js'
+import { BACKEND_URL } from '../config/index.js'
 
 
 export default function HomePage({ events }) {
@@ -20,7 +20,7 @@ export default function HomePage({ events }) {
 
 // Obtient les données de la DB
 export async function getStaticProps() {
-  const {data: events} = await axios.get(`${API_URL}/events?_sort=date:ASC&_limit=3`)
+  const {data: events} = await axios.get(`${BACKEND_URL}/events?_sort=date:ASC&_limit=3`)
   return {
     props: { events },
     revalidate: 1                      // Option pour simuler un observer, refait la requête après 1 seconde si la DB fut modifiée

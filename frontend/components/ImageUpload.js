@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import PuffLoader from "react-spinners/PuffLoader";
-import {API_URL} from '../config/index'
+import {BACKEND_URL} from '../config/index'
 import styles from '../styles/Form.module.css'
 
 export default function ImageUploads({ evtId, showNewThumbnail }) {
@@ -16,7 +16,7 @@ export default function ImageUploads({ evtId, showNewThumbnail }) {
     formData.append("ref", "events");
     formData.append("refId", evtId);
     formData.append("field", "image");
-    const res = await fetch(`${API_URL}/upload`, { method: "POST", body: formData });
+    const res = await fetch(`${BACKEND_URL}/upload`, { method: "POST", body: formData });
     if (res.ok) {
       setLoading(false)
       showNewThumbnail()

@@ -8,9 +8,14 @@ import AuthContext from '../../context/AuthContext';
 import styles from '../../styles/AuthForm.module.css'
 
 export default function LoginPage() {
-  const {login, error} = useContext(AuthContext)
+  const {login, error: loginError} = useContext(AuthContext)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  useEffect(() => {
+    loginError && toast.error(loginError)                                            // Affiche l'erreur d'un mauvais l/p lors du login
+  }, [loginError]);
+
 
   const handleSubmit = (e) => {
     e.preventDefault()

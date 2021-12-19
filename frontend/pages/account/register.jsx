@@ -14,12 +14,14 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
 
+  useEffect(() =>  error && toast.error(error))
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (password !== passwordConfirm) {
-      toast.error('Password do not match!')
-      return
-    }
+    if (username === '') { toast.error('Please provide a username.'); return} 
+    if (email === '') { toast.error('Please provide your email.'); return} 
+    if (password === '') { toast.error('Please provide your password.'); return}
+    if (password !== passwordConfirm) { toast.error('Password do not match!'); return}
     register ({username, email, password})                                                       // POST à l'API et enregistre la réponse dans le context
   }
 
@@ -46,7 +48,7 @@ export default function RegisterPage() {
             <input type='password' id='passwordConfirm' value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} />
           </div>
 
-          <input type='submit' value='login' className='btn' />
+          <input type='submit' value='Register' className='btn' />
         </form>
         <p>Alreasy have an account? <Link href='/account/login'><a>Login</a></Link></p>
       </div>

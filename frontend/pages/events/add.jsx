@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { ToastContainer, toast } from "react-toastify";    
 import "react-toastify/dist/ReactToastify.css";                                     
 import Layout from '../../components/Layout.jsx'
-import {API_URL} from '../../config/index'
+import {BACKEND_URL} from '../../config/index'
 import styles from '../../styles/Form.module.css'
 
 
@@ -33,7 +33,7 @@ export default function AddEventPage() {
     // POST 
     try { 
       const config = { headers: { 'Content-Type': 'application/json' }}
-      const { data: newEvent } = await axios.post(`${API_URL}/events`, values, config)
+      const { data: newEvent } = await axios.post(`${BACKEND_URL}/events`, values, config)
       router.push(`/events/${newEvent.slug}`);
     } catch (error) {
       toast.error("Something went wrong");

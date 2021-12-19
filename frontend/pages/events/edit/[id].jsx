@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Layout from '../../../components/Layout'
 import Modal from "../../../components/Modal";
 import ImageUpload from '../../../components/ImageUpload'
-import {API_URL} from '../../../config/index.js'
+import {BACKEND_URL} from '../../../config/index.js'
 import styles from '../../../styles/Form.module.css'
 
 
@@ -44,7 +44,7 @@ export default function EditEventPage({ evt }) {
     // UPDATE 
     try { 
       const config = { headers: { 'Content-Type': 'application/json' }}
-      const { data: updatedEvent } = await axios.put(`${API_URL}/events/${evt.id}`, values, config)
+      const { data: updatedEvent } = await axios.put(`${BACKEND_URL}/events/${evt.id}`, values, config)
       router.push(`/events/${updatedEvent.slug}`);
     } catch (error) {
       toast.error("Something went wrong");
@@ -60,7 +60,7 @@ export default function EditEventPage({ evt }) {
 
 
   const showNewThumbnail = async (e) => {
-    const { data } = await axios.get(`${API_URL}/events/${evt.id}`);
+    const { data } = await axios.get(`${BACKEND_URL}/events/${evt.id}`);
     setImageThumbnail(data.image.formats.thumbnail.url);
     setShowModal(false);
   };
@@ -123,7 +123,7 @@ export default function EditEventPage({ evt }) {
 
 // Obtient l'event 'id' de la DB
 export async function getServerSideProps({ params: {id} }) {                           // extrait le 'id' du url
-  const { data: event } = await axios.get(`${API_URL}/events/${id}`)                   // Obtient un obj event
+  const { data: event } = await axios.get(`${BACKEND_URL}/events/${id}`)                   // Obtient un obj event
   return {
     props: { evt: event }
   }

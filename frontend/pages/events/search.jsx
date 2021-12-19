@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 import Layout from "../../components/Layout"
 import EventItem from '../../components/EventItem.jsx'
-import { API_URL } from '../../config/index.js'
+import { BACKEND_URL } from '../../config/index.js'
 
 
 export default function SearchPage({ events }) {
@@ -32,7 +32,7 @@ export async function getServerSideProps({ query: { term } }) {
       ],
     },
   });
-  const {data: events} = await axios.get(`${API_URL}/events?${query}`)
+  const {data: events} = await axios.get(`${BACKEND_URL}/events?${query}`)
   return { 
     props: { events } 
   }
