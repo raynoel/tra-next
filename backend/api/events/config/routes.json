@@ -10,7 +10,9 @@
     },
     {
       "method": "GET",
+      "__COMMENT1__": "path est l'addrese de l'API",
       "path": "/events/me",
+      "__COMMENT2__": "handler est l'addrese du controlleur",
       "handler": "events.me",
       "config": {
         "policies": []
