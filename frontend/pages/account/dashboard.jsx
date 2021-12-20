@@ -9,44 +9,32 @@ import styles from "../../styles/Dashboard.module.css";
 
 
 
-export default function DashboardPage({ user, events, token }) {
-  const router = useRouter();
+export default function DashboardPage({ events, token }) {
 
-  console.log(user)
-  const deleteEvent = async (id) => {
-    if (confirm("Are you sure?")) {
-      try {
-        const config = { headers: { Authorization: `Bearer ${token}`}}  
-        await axios.delete(`${BACKEND_URL}/events/${id}`, config)
-        router.reload();
-      } catch (error) {
-        toast.error(data.message);
-      }
-    }
-  };
+  console.log(events)
 
   return (
     <Layout title="User Dashboard">
       <div className={styles.dash}>
-        <h1>Dashboard of {user.username}</h1>
+        <h1>Dashboard</h1>
         <h3>My Events</h3>
-        {/* {events.map((evt) => (
-          <DashboardEvent key={evt.id} singleEvent={evt} handleDelete={deleteEvent} />
-        ))} */}
+        { events.map((evt) => 
+          <div key={evt.id}>{evt.name}</div>
+        )}
       </div>
     </Layout>
   );
 }
 
+
+// Obtient les enregistrements soumis par l'usagé
 export async function getServerSideProps({ req }) {
-  const { token } = cookie.parse(req ? req.headers.cookie || "" : "");
+  const { token } = cookie.parse(req ? req.headers.cookie || "" : "");          // si pas de cookie, retourne une chaine vide. Si pas de req, retourne une chaine vide
   const config = { headers: { Authorization: `Bearer ${token}`}}  
-  let { data: user } = await axios.get(`${BACKEND_URL}/users/me`, config)
-  let { data: events } = await axios.get(`${BACKEND_URL}/events/me`, config)
+  const { data: events } = await axios.get(`${BACKEND_URL}/events/me`, config)  // Obtient les enregistrements de l'usagé
 
   return {
     props: {
-      user,
       events,
       token
     },

@@ -1,15 +1,15 @@
 "use strict";
 const { sanitizeEntity } = require("strapi-utils");               // prévient les injection JS
 
-/**
- * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
- * to customize this controller
- */
-  // Create event with linked user
-  // https://strapi.io/documentation/developer-docs/latest/guides/is-owner.html
+// Documentation pour personnaliser les controleurs
+// https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers
+
+// Documentation pour créer des fcts réservées aux propriétaires de l'enrgistrement
+// https://strapi.io/documentation/developer-docs/latest/guides/is-owner.html
+
 module.exports = {
 
-  // Retourne la liste des 'events' ajoutés par l'usagé identifié par son token
+  // Retourne la liste des 'events' ajoutés par l'usagé
   async me(context) {
     const user = context.state.user;                                      // Obtient l'usagé identifié par son token
     if (!user) {
