@@ -2,6 +2,8 @@ import axios from 'axios'
 import cookie from "cookie";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import Link from "next/link";
+import { FaPencilAlt, FaRegTrashAlt } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import Layout from "../../components/Layout";
 import { BACKEND_URL } from "../../config/index";
@@ -11,7 +13,9 @@ import styles from "../../styles/Dashboard.module.css";
 
 export default function DashboardPage({ events, token }) {
 
-  console.log(events)
+  const deleteEvent = (id) => {    
+    console.log(id)
+  }
 
   return (
     <Layout title="User Dashboard">
@@ -19,7 +23,11 @@ export default function DashboardPage({ events, token }) {
         <h1>Dashboard</h1>
         <h3>My Events</h3>
         { events.map((evt) => 
-          <div key={evt.id}>{evt.name}</div>
+          <div className={styles.event} key={evt.id}>
+            <Link href={`/events/${evt.slug}`}><h4><a>{evt.name}</a></h4></Link>
+            <Link href={`/events/edit/${evt.id}`}><a className={styles.edit}><FaPencilAlt /> Edit</a></Link>
+            <a href="#" className={styles.delete} onClick={() => deleteEvent(evt.id)}><FaRegTrashAlt /></a>
+          </div>
         )}
       </div>
     </Layout>
