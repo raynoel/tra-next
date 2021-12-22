@@ -2,9 +2,6 @@ import axios from 'axios'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { ToastContainer, toast } from "react-toastify";    
-import "react-toastify/dist/ReactToastify.css";  
-import {FaPencilAlt, FaTimes} from 'react-icons/fa'
 import Layout from '../../components/Layout.jsx'
 import styles from '../../styles/Event.module.css'
 import { BACKEND_URL } from '../../config/index.js'
@@ -13,25 +10,10 @@ import { BACKEND_URL } from '../../config/index.js'
 export default function EventPage({ evt }) {
   const router = useRouter();
 
-  const deleteEvent = async (e) => {
-    if (confirm('Are you sure?')) {
-      try {
-        await axios.delete(`${BACKEND_URL}/events/${evt.id}`) 
-        router.push(`/events`)
-      } catch (error) {
-        toast.error("Something went wrong");
-      }
-    }
-  }
 
   return (
     <Layout>
-      <ToastContainer />
       <div className={styles.event}>
-        <div className={styles.controls}>
-          <Link href={`/events/edit/${evt.id}`}><a><FaPencilAlt /> Edit Event</a></Link>
-          <a href='#' className={styles.delete} onClick={deleteEvent}><FaTimes /> Delete Event</a>
-        </div>
         <span>{new Date(evt.date).toLocaleDateString('en-US')} at {evt.time}</span>
         <h1>{evt.name}</h1>
         {evt.image && ( <div className={styles.image}><Image src={evt.image.formats.medium.url} width={960} height={600} layout="responsive" /></div> )}

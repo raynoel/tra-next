@@ -8,9 +8,9 @@ import { FaImage } from 'react-icons/fa'
 import moment from 'moment'
 import { ToastContainer, toast } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css";                                     
-import Layout from '../../../components/Layout'
-import Modal from "../../../components/Modal";
-import ImageUpload from '../../../components/ImageUpload'
+import Layout from '../../../components/Layout.jsx'
+import Modal from "../../../components/Modal.jsx";
+import ImageUpload from '../../../components/ImageUpload.jsx'
 import {BACKEND_URL} from '../../../config/index.js'
 import styles from '../../../styles/Form.module.css'
 
@@ -113,7 +113,7 @@ export default function EditEventPage({ evt, token }) {
       
       <div><button className="btn-secondary" onClick={() => setShowModal(true)}><FaImage /> Upload Image </button></div>
       <Modal show={showModal} onClose={() => setShowModal(false)}>
-        <ImageUpload evtId={evt.id} showNewThumbnail={showNewThumbnail} />
+        <ImageUpload evtId={evt.id} showNewThumbnail={showNewThumbnail} token={token} />
       </Modal>
 
     </Layout>
