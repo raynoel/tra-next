@@ -1,4 +1,5 @@
 import axios from 'axios'
+import cookie from "cookie";
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -9,7 +10,7 @@ import {BACKEND_URL} from '../../config/index'
 import styles from '../../styles/Form.module.css'
 
 
-export default function AddEventPage() {
+export default function AddEventPage({ token }) {
   const router = useRouter();
   const [values, setValues] = useState({
     name: "",
@@ -30,12 +31,16 @@ export default function AddEventPage() {
       toast.error("Please fill in all fields");
       return;
     }
-    // POST 
+    // POST à l'API
     try { 
-      const config = { headers: { 'Content-Type': 'application/json' }}
+      const config = { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }}
       const { data: newEvent } = await axios.post(`${BACKEND_URL}/events`, values, config)
       router.push(`/events/${newEvent.slug}`);
     } catch (error) {
+      if (error.response.status === 403 || error.response.status === 401){
+        toast.error("Unauthorized")
+        return
+      }
       toast.error("Something went wrong");
     }
   }
@@ -89,4 +94,15 @@ export default function AddEventPage() {
 
     </Layout>
   )
+}
+
+
+export async function getServerSideProps({ req }) {
+  const userCookie = cookie.parse(req ? req.headers.cookie || "" : "");          // si pas de cookie, retourne une chaine vide. Si pas de req, retourne une chaine vide
+  const token = userCookie.token ? userCookie.token : "";
+  return {
+    props: {
+      token,
+    },
+  };
 }

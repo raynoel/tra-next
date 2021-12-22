@@ -1,4 +1,5 @@
 import axios from 'axios'
+import cookie from "cookie";
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -17,7 +18,7 @@ import styles from '../../../styles/Form.module.css'
 
 
 
-export default function EditEventPage({ evt }) {
+export default function EditEventPage({ evt, token }) {
   const router = useRouter();
   const [imageThumbnail, setImageThumbnail] = useState(evt.image ? evt.image.formats.thumbnail.url : null)
   const [showModal, setShowModal] = useState(false)
@@ -43,7 +44,7 @@ export default function EditEventPage({ evt }) {
     }
     // UPDATE 
     try { 
-      const config = { headers: { 'Content-Type': 'application/json' }}
+      const config = { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }}
       const { data: updatedEvent } = await axios.put(`${BACKEND_URL}/events/${evt.id}`, values, config)
       router.push(`/events/${updatedEvent.slug}`);
     } catch (error) {
@@ -122,9 +123,14 @@ export default function EditEventPage({ evt }) {
 
 
 // Obtient l'event 'id' de la DB
-export async function getServerSideProps({ params: {id} }) {                           // extrait le 'id' du url
-  const { data: event } = await axios.get(`${BACKEND_URL}/events/${id}`)                   // Obtient un obj event
+export async function getServerSideProps({req,  params: {id} }) {                           // extrait le 'id' du url
+  const userCookie = cookie.parse(req ? req.headers.cookie || "" : "");                     // si pas de cookie, retourne une chaine vide. Si pas de req, retourne une chaine vide
+  const token = userCookie.token ? userCookie.token : "";
+  const { data: event } = await axios.get(`${BACKEND_URL}/events/${id}`)                    // Obtient un obj event
   return {
-    props: { evt: event }
+    props: { 
+      evt: event,
+      token
+     }
   }
 }

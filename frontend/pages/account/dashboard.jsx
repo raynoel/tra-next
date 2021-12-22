@@ -1,10 +1,10 @@
 import axios from 'axios'
 import cookie from "cookie";
-import { useRouter } from "next/router";
-import { toast } from "react-toastify";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";    
+import "react-toastify/dist/ReactToastify.css";     
 import { FaPencilAlt, FaRegTrashAlt } from "react-icons/fa";
-import "react-toastify/dist/ReactToastify.css";
 import Layout from "../../components/Layout";
 import { BACKEND_URL } from "../../config/index";
 import styles from "../../styles/Dashboard.module.css";
@@ -12,14 +12,27 @@ import styles from "../../styles/Dashboard.module.css";
 
 
 export default function DashboardPage({ events, token }) {
+  const router = useRouter();
 
-  const deleteEvent = (id) => {    
-    console.log(id)
+  const deleteEvent =  (id) => {
+    if (confirm("Are you sure?")) {
+      const config = { headers: { Authorization: `Bearer ${token}`}} 
+      axios.delete(`${BACKEND_URL}/events/${id}`, config)
+      .then(() => { router.reload() } )
+      .catch(error => {
+        if (error.response.status === 403 || error.response.status === 401) {
+          toast.error("Unauthorized");
+          return
+        }
+        toast.error("Something went wrong");
+      })
+    }
   }
 
   return (
     <Layout title="User Dashboard">
       <div className={styles.dash}>
+        <ToastContainer />
         <h1>Dashboard</h1>
         <h3>My Events</h3>
         { events.map((evt) => 
