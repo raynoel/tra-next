@@ -4,6 +4,7 @@
 /backend/public/uploads
 **/.cache
 **/.env
+**/.env.local
 **/.tmp
 **/build
 **/.next

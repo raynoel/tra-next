@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import Layout from '../../components/Layout.jsx'
+import EventMap from '../../components/EventMap.jsx'
 import styles from '../../styles/Event.module.css'
 import { BACKEND_URL } from '../../config/index.js'
 
@@ -23,6 +24,9 @@ export default function EventPage({ evt }) {
         <p>{evt.description}</p>
         <h3>Venue: {evt.venue}</h3>
         <p>{evt.address}</p>
+
+        <EventMap evt={evt} />
+
         <Link href='/events'><a className={styles.back}>{'<­'} Go Back</a></Link>
       </div>
     </Layout>
